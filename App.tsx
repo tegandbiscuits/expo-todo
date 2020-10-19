@@ -4,6 +4,7 @@ import { Container } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import AppHeader from './src/AppHeader';
+import TodoList from './src/TodoList';
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);
@@ -25,6 +26,7 @@ const App = () => {
   return (
     <Container>
       <AppHeader />
+      <TodoList />
     </Container>
   );
 };
