@@ -1,7 +1,11 @@
 import React from 'react';
 import { Button, Header, Icon, Left, Right, Text } from 'native-base';
 
-const AppHeader = () => {
+interface AppHeaderProps {
+  onAddItemPress: () => any;
+}
+
+const AppHeader = (props: AppHeaderProps) => {
   return (
     <Header>
       <Left>
@@ -11,7 +15,10 @@ const AppHeader = () => {
       </Left>
 
       <Right>
-        <Button transparent>
+        <Button
+          transparent
+          onPress={() => { props.onAddItemPress() }}
+        >
           <Icon name="add" />
         </Button>
       </Right>

@@ -1,33 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppLoading } from 'expo';
 import { Container } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import AppHeader from './src/AppHeader';
+import TodoList, { Todo } from './src/TodoList';
+import NewTodoModal from './src/NewTodoModal';
 
-export default class App extends React.Component {
-  state = {
-    isReady: false,
-  }
+const defaultTodos: Todo[] = [
+  {
+    title: 'Hello World',
+  },
+  {
+    title: 'Hey Buddy',
+  },
+  {
+    title: 'Good job',
+  },
+];
 
-  async componentDidMount() {
-    await Font.loadAsync({
-      Roboto: require('native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+const App = () => {
+  const [isReady, setIsReady] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [todos, setTodos] = useState<Todo[]>(defaultTodos);
+
+  useEffect(() => {
+    Font.loadAsync({
+      // Roboto: require('native-base/Fonts/Roboto.ttf'),
+      // Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
+    }).then(() => {
+      setIsReady(true);
     });
-    this.setState({ isReady: true });
+  }, []);
+
+  if (!isReady) {
+    return <AppLoading />
   }
 
-  render() {
-    if (!this.state.isReady) {
-      return <AppLoading />;
-    }
+  const modalClosed = (newTodo: Todo) => {
+    setTodos((prev) => prev.concat(newTodo))
+    setShowAddModal(false);
+  };
 
-    return (
-      <Container>
-        <AppHeader />
-      </Container>
-    );
-  }
-}
+  return (
+    <Container>
+      <AppHeader
+        onAddItemPress={() => setShowAddModal(true)}
+      />
+
+      <NewTodoModal
+        modalOpen={showAddModal}
+        onModalClose={modalClosed}
+      />
+
+      <TodoList todos={todos} />
+    </Container>
+  );
+};
+
+export default App;
