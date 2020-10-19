@@ -14,5 +14,4 @@ const defaultTodos = [
     title: 'Good job',
   },
 ];
-
 export const TodoContext = React.createContext(defaultTodos);
