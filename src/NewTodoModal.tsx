@@ -1,15 +1,11 @@
-import { Button, Content, Form, Input, Item, Text, View } from 'native-base';
-import React, { useEffect, useState } from 'react';
-import { Dimensions, KeyboardAvoidingView, Modal, StyleSheet, TouchableHighlight } from 'react-native';
+import { Button, Form, Input, Item, Text, View } from 'native-base';
+import React, { useState } from 'react';
+import { Dimensions, KeyboardAvoidingView, Modal, StyleSheet } from 'react-native';
+import { Todo } from './TodoList';
 
 const styles = StyleSheet.create({
   containerView: {
     flex: 1,
-    // position: 'absolute',
-    // top: 0,
-    // left: 0,
-    // right: 0,
-    // bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -32,10 +28,12 @@ const styles = StyleSheet.create({
 
 interface NewTodoModalProps {
   modalOpen: boolean;
-  onModalClose: () => any;
+  onModalClose: (todo: Todo) => any;
 }
 
 const NewTodoModal = (props: NewTodoModalProps) => {
+  const [todoTitle, setTodoTitle] = useState('');
+
   return (
     <Modal
       animationType="slide"
@@ -48,11 +46,15 @@ const NewTodoModal = (props: NewTodoModalProps) => {
 
           <Form>
             <Item>
-              <Input placeholder="Title" />
+              <Input
+                placeholder="Title"
+                value={todoTitle}
+                onChangeText={(val) => setTodoTitle(val)}
+              />
             </Item>
           </Form>
 
-          <Button>
+          <Button onPress={() => props.onModalClose({ title: todoTitle })}>
             <Text>Save</Text>
           </Button>
         </View>

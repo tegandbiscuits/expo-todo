@@ -4,12 +4,25 @@ import { Container } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import AppHeader from './src/AppHeader';
-import TodoList from './src/TodoList';
+import TodoList, { Todo } from './src/TodoList';
 import NewTodoModal from './src/NewTodoModal';
+
+const defaultTodos: Todo[] = [
+  {
+    title: 'Hello World',
+  },
+  {
+    title: 'Hey Buddy',
+  },
+  {
+    title: 'Good job',
+  },
+];
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [todos, setTodos] = useState<Todo[]>(defaultTodos);
 
   useEffect(() => {
     Font.loadAsync({
@@ -25,6 +38,11 @@ const App = () => {
     return <AppLoading />
   }
 
+  const modalClosed = (newTodo: Todo) => {
+    setTodos((prev) => prev.concat(newTodo))
+    setShowAddModal(false);
+  };
+
   return (
     <Container>
       <AppHeader
@@ -33,10 +51,10 @@ const App = () => {
 
       <NewTodoModal
         modalOpen={showAddModal}
-        onModalClose={() => setShowAddModal(false)}
+        onModalClose={modalClosed}
       />
 
-      <TodoList />
+      <TodoList todos={todos} />
     </Container>
   );
 };

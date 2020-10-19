@@ -1,16 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { List, ListItem, Text } from 'native-base';
 import { ScrollView } from 'react-native';
-import { TodoContext } from './contexts';
 
-const TodoList = () => {
-  const todos = useContext(TodoContext);
+export interface Todo {
+  title: string;
+}
 
+interface TodoListProps {
+  todos: Todo[],
+}
+
+const TodoList = (props: TodoListProps) => {
   return (
     <ScrollView>
       <List>
-        {todos.map((todo) => (
-          <ListItem key={todo.id}>
+        {props.todos.map((todo) => (
+          <ListItem key={todo.title}>
             <Text>{todo.title}</Text>
           </ListItem>
         ))}
