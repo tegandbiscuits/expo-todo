@@ -35,11 +35,11 @@ const App = () => {
   }, []);
 
   if (!isReady) {
-    return <AppLoading />
+    return <AppLoading />;
   }
 
   const modalClosed = (newTodo: Todo) => {
-    setTodos((prev) => prev.concat(newTodo))
+    setTodos((prev) => prev.concat(newTodo));
     setShowAddModal(false);
   };
 
